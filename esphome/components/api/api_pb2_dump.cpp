@@ -806,6 +806,9 @@ void DeviceInfoResponse::dump_to(std::string &out) const {
 #ifdef USE_INFRARED_PROXY
   dump_field(out, "infrared_proxy_feature_flags", this->infrared_proxy_feature_flags);
 #endif
+#ifdef USE_INFRARED_PROXY
+  dump_field(out, "infrared_proxy_supported_protocols", this->infrared_proxy_supported_protocols_ref_);
+#endif
 }
 void ListEntitiesRequest::dump_to(std::string &out) const { out.append("ListEntitiesRequest {}"); }
 void ListEntitiesDoneResponse::dump_to(std::string &out) const { out.append("ListEntitiesDoneResponse {}"); }
@@ -2261,6 +2264,7 @@ void ListEntitiesInfraredProxyResponse::dump_to(std::string &out) const {
   dump_field(out, "device_id", this->device_id);
 #endif
   dump_field(out, "capabilities", this->capabilities);
+  dump_field(out, "frequency", this->frequency);
 }
 void InfraredProxyTimingParams::dump_to(std::string &out) const {
   MessageDumpHelper helper(out, "InfraredProxyTimingParams");

@@ -144,6 +144,9 @@ void DeviceInfoResponse::encode(ProtoWriteBuffer buffer) const {
 #ifdef USE_INFRARED_PROXY
   buffer.encode_uint32(25, this->infrared_proxy_feature_flags);
 #endif
+#ifdef USE_INFRARED_PROXY
+  buffer.encode_string(26, this->infrared_proxy_supported_protocols_ref_);
+#endif
 }
 void DeviceInfoResponse::calculate_size(ProtoSize &size) const {
 #ifdef USE_API_PASSWORD
@@ -204,6 +207,9 @@ void DeviceInfoResponse::calculate_size(ProtoSize &size) const {
 #endif
 #ifdef USE_INFRARED_PROXY
   size.add_uint32(2, this->infrared_proxy_feature_flags);
+#endif
+#ifdef USE_INFRARED_PROXY
+  size.add_length(2, this->infrared_proxy_supported_protocols_ref_.size());
 #endif
 }
 #ifdef USE_BINARY_SENSOR
@@ -3278,6 +3284,7 @@ void ListEntitiesInfraredProxyResponse::encode(ProtoWriteBuffer buffer) const {
   buffer.encode_uint32(7, this->device_id);
 #endif
   buffer.encode_uint32(8, this->capabilities);
+  buffer.encode_uint32(9, this->frequency);
 }
 void ListEntitiesInfraredProxyResponse::calculate_size(ProtoSize &size) const {
   size.add_length(1, this->object_id_ref_.size());
@@ -3292,6 +3299,7 @@ void ListEntitiesInfraredProxyResponse::calculate_size(ProtoSize &size) const {
   size.add_uint32(1, this->device_id);
 #endif
   size.add_uint32(1, this->capabilities);
+  size.add_uint32(1, this->frequency);
 }
 bool InfraredProxyTimingParams::decode_varint(uint32_t field_id, ProtoVarInt value) {
   switch (field_id) {

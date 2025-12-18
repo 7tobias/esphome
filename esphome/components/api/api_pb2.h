@@ -508,7 +508,7 @@ class DeviceInfo final : public ProtoMessage {
 class DeviceInfoResponse final : public ProtoMessage {
  public:
   static constexpr uint8_t MESSAGE_TYPE = 10;
-  static constexpr uint16_t ESTIMATED_SIZE = 262;
+  static constexpr uint16_t ESTIMATED_SIZE = 272;
 #ifdef HAS_PROTO_MESSAGE_DUMP
   const char *message_name() const override { return "device_info_response"; }
 #endif
@@ -577,6 +577,12 @@ class DeviceInfoResponse final : public ProtoMessage {
 #endif
 #ifdef USE_INFRARED_PROXY
   uint32_t infrared_proxy_feature_flags{0};
+#endif
+#ifdef USE_INFRARED_PROXY
+  StringRef infrared_proxy_supported_protocols_ref_{};
+  void set_infrared_proxy_supported_protocols(const StringRef &ref) {
+    this->infrared_proxy_supported_protocols_ref_ = ref;
+  }
 #endif
   void encode(ProtoWriteBuffer buffer) const override;
   void calculate_size(ProtoSize &size) const override;
@@ -3079,7 +3085,7 @@ class ZWaveProxyRequest final : public ProtoDecodableMessage {
 class ListEntitiesInfraredProxyResponse final : public ProtoMessage {
  public:
   static constexpr uint8_t MESSAGE_TYPE = 132;
-  static constexpr uint8_t ESTIMATED_SIZE = 44;
+  static constexpr uint8_t ESTIMATED_SIZE = 48;
 #ifdef HAS_PROTO_MESSAGE_DUMP
   const char *message_name() const override { return "list_entities_infrared_proxy_response"; }
 #endif
@@ -3098,6 +3104,7 @@ class ListEntitiesInfraredProxyResponse final : public ProtoMessage {
   uint32_t device_id{0};
 #endif
   uint32_t capabilities{0};
+  uint32_t frequency{0};
   void encode(ProtoWriteBuffer buffer) const override;
   void calculate_size(ProtoSize &size) const override;
 #ifdef HAS_PROTO_MESSAGE_DUMP
