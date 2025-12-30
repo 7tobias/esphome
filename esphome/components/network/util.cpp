@@ -9,6 +9,10 @@
 #include "esphome/components/ethernet/ethernet_component.h"
 #endif
 
+#ifdef USE_W5500_ETHERNET
+#include "esphome/components/w5500_ethernet/w5500_ethernet.h"
+#endif
+
 #ifdef USE_OPENTHREAD
 #include "esphome/components/openthread/openthread.h"
 #endif
@@ -26,6 +30,12 @@ namespace network {
 bool is_connected() {
 #ifdef USE_ETHERNET
   if (ethernet::global_eth_component != nullptr && ethernet::global_eth_component->is_connected())
+    return true;
+#endif
+
+#ifdef USE_W5500_ETHERNET
+  if (w5500_ethernet::global_eth_component != nullptr &&
+      w5500_ethernet::global_eth_component->is_connected())
     return true;
 #endif
 
@@ -69,6 +79,11 @@ network::IPAddresses get_ip_addresses() {
     return ethernet::global_eth_component->get_ip_addresses();
 #endif
 
+#ifdef USE_W5500_ETHERNET
+  if (w5500_ethernet::global_eth_component != nullptr)
+    return w5500_ethernet::global_eth_component->get_ip_addresses();
+#endif
+
 #ifdef USE_MODEM
   if (modem::global_modem_component != nullptr)
     return modem::global_modem_component->get_ip_addresses();
@@ -91,6 +106,10 @@ const char *get_use_address() {
   return ethernet::global_eth_component->get_use_address();
 #endif
 
+#ifdef USE_W5500_ETHERNET
+  return w5500_ethernet::global_eth_component->get_use_address();
+#endif
+
 #ifdef USE_MODEM
   return modem::global_modem_component->get_use_address();
 #endif
@@ -103,7 +122,8 @@ const char *get_use_address() {
   return openthread::global_openthread_component->get_use_address();
 #endif
 
-#if !defined(USE_ETHERNET) && !defined(USE_MODEM) && !defined(USE_WIFI) && !defined(USE_OPENTHREAD)
+#if !defined(USE_ETHERNET) && !defined(USE_W5500_ETHERNET) && !defined(USE_MODEM) && !defined(USE_WIFI) && \
+    !defined(USE_OPENTHREAD)
   // Fallback when no network component is defined (e.g., host platform)
   return "";
 #endif

@@ -1,0 +1,15 @@
+rp2040:
+  board: wiznet_5500_evb_pico
+  framework:
+    platform_version: https://github.com/maxgerhardt/platform-raspberrypi.git#v1.2.0-gcc12
+    version: 3.7.2
+    source: https://github.com/earlephilhower/arduino-pico.git#c670f66140e4188aab4a6f1a92644791a89cb153
+
+w5500_ethernet:
+
+api:
+  reboot_timeout: 0s
+
+logger:
+  level: DEBUG
+  hardware_uart: USB_CDC

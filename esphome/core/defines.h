@@ -278,6 +278,7 @@
 #define USE_LOGGER_USB_CDC
 #define USE_SOCKET_IMPL_LWIP_TCP
 #define USE_SPI
+#define USE_W5500_ETHERNET
 #endif
 
 #ifdef USE_LIBRETINY
